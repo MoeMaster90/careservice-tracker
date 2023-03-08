@@ -18,9 +18,15 @@ class PatientTracker extends Component
 
     public string $patientName = "";
 
+    public array $selectedTreatments = [];
+
     public bool $shiftStarted = false;
 
     public array $stages = [];
+
+    protected $listeners = [
+        'selectedTreatmentsUpdated',
+    ];
 
     public function mount()
     {
@@ -141,5 +147,10 @@ class PatientTracker extends Component
         }
 
         $this->stages[] = $stageData;
+    }
+
+    public function selectedTreatmentsUpdated($updatedTreatments)
+    {
+        $this->selectedTreatments = $updatedTreatments;
     }
 }

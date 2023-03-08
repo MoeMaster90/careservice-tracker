@@ -29,4 +29,9 @@ class TreatmentList extends Component
 
         $this->newTreatmentName = '';
     }
+
+    public function updatedSelectedTreatments()
+    {
+        $this->emitUp('selectedTreatmentsUpdated', $this->selectedTreatments);
+    }
 }

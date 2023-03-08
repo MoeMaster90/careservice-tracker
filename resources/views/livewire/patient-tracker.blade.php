@@ -50,13 +50,13 @@
                                     <span class="font-bold mr-2">{{ __('Name') }}:</span><span>{{ $stage['patient_name'] }}</span>
                                 </div>
                                 <div class="border-gray-300">
-                                    <span class="font-bold mr-2">{{ __('Arrival') }}:</span><span>{{ $stage['start'] }}</span>
+                                    <span class="font-bold mr-2">{{ __('Start') }}:</span><span>{{ $stage['start'] }}</span>
                                 </div>
                                 <div class="border-gray-300">
-                                    <span class="font-bold mr-2">{{ __('Departure') }}:</span><span>{{ $stage['end'] }}</span>
+                                    <span class="font-bold mr-2">{{ __('End') }}:</span><span>{{ $stage['end'] }}</span>
                                 </div>
 
-                                <div class="col-span-4 grid grid-cols-2 gap-4 border-gray-300 border-dashed border-t-2 pt-2">
+                                <div class="col-span-2 md:col-span-2 lg:col-span-4 grid grid-cols-1 md:grid-cols-2 gap-4 border-gray-300 border-dashed border-t-2 pt-2">
                                     <div class="">
                                         <span class="font-bold">{{ __('Treatments') }}:</span>
                                         <ul>
