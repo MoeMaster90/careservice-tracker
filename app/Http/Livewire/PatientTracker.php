@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Jobs\StoreShiftJob;
 use Livewire\Component;
 
 class PatientTracker extends Component
@@ -14,7 +15,7 @@ class PatientTracker extends Component
 
     public bool $onBreak = false;
 
-    public string $patientExtraInfo = "";
+    public string $extraNotes = "";
 
     public string $patientName = "";
 
@@ -35,14 +36,7 @@ class PatientTracker extends Component
 
     public function render()
     {
-        return view('livewire.patient-tracker', [
-            'treatments' => [
-                'Strümpfe anziehen',
-                'Verband wechseln',
-                'Tabletten stellen',
-                'Duschbad',
-            ]
-        ]);
+        return view('livewire.patient-tracker');
     }
 
     public function startShiftAtPatient()
@@ -59,6 +53,7 @@ class PatientTracker extends Component
 
     public function endShift()
     {
+        StoreShiftJob::dispatchSync($this->stages);
         $this->shiftStarted = false;
     }
 
@@ -97,7 +92,7 @@ class PatientTracker extends Component
         $this->lastPatientName = $this->patientName;
         $this->patientName = "";
 
-        $this->patientExtraInfo = "";
+        $this->extraNotes = "";
         $this->selectedTreatments = [];
     }
 
@@ -125,16 +120,21 @@ class PatientTracker extends Component
 
     private function addStage($type, $start = 0, $end = 0)
     {
+        $start = !empty($start) ? $start : $this->currentStageStart;
+        $end = !empty($end) ? $end : time();
+
         $stageData = [
             'type' => $type,
-            'start' => date('H:i', !empty($start) ? $start : $this->currentStageStart),
-            'end' => date('H:i', !empty($end) ? $end : time()),
+            'start' => date('H:i', $start),
+            'end' => date('H:i', $end),
+            'start_date_time' => date('Y-m-d H:i:s', $start),
+            'end_date_time' => date('Y-m-d H:i:s', $end),
         ];
 
         switch ($type) {
             case 'treatment':
                 $stageData['patient_name'] = $this->patientName;
-                $stageData['patient_extra_info'] = $this->patientExtraInfo;
+                $stageData['extra_notes'] = $this->extraNotes;
                 $stageData['treatments'] = $this->selectedTreatments;
                 break;
             case 'break':

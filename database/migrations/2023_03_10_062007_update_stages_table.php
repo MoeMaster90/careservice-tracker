@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-
+        Schema::table('stages', function (Blueprint $table) {
+            $table->text('extra_notes')->nullable()->change();
         });
     }
 
